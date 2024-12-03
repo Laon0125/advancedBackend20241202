@@ -46,11 +46,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersByUser(String uid) {
-        return List.of();
+        return orderRepository.findByUserUid(uid);
     }
 
     @Override
     public List<Order> getOrderByDateRange(LocalDateTime start, LocalDateTime end) {
-        return List.of();
+        return orderRepository.findByOrderDateTimeBetween(start, end);
     }
 }
