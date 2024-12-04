@@ -8,6 +8,7 @@ import com.lion.demo.repository.BookRepository;
 import com.lion.demo.repository.CartRepository;
 import com.lion.demo.repository.OrderRepository;
 import com.lion.demo.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
     @Autowired private BookRepository bookRepository;
     @Autowired private CartRepository cartRepository;

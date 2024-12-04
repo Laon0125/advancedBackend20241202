@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -93,25 +95,40 @@ public class UserController {
     public String loginForm() {
         return "user/login";
     }
-    @PostMapping("/login")
-    public String loginProc (String uid, String pwd, HttpSession session, Model model){
-        String msg, url;
-        int result = userService.login(uid,pwd);
-        if (result == UserService.CORRECT_LOGIN){
-            User user = userService.findByUid(uid);
-            session.setAttribute("sessUid", uid);
-            session.setAttribute("sessUname", user.getUname());
-            msg = user.getUname() + "님 환영합니다." ;
-            url = "/mall/list";
-        } else if (result == UserService.WRONG_PASSWORD){
-            msg = "비밀번호가 틀림";
-            url = "login";
-        } else  {
-            msg = "아이디가 존재하지 않음";
-            url = "register";
-        }
+//    @PostMapping("/login")
+//    public String loginProc (String uid, String pwd, HttpSession session, Model model){
+//        String msg, url;
+//        int result = userService.login(uid,pwd);
+//        if (result == UserService.CORRECT_LOGIN){
+//            User user = userService.findByUid(uid);
+//            session.setAttribute("sessUid", uid);
+//            session.setAttribute("sessUname", user.getUname());
+//            msg = user.getUname() + "님 환영합니다." ;
+//            url = "/mall/list";
+//        } else if (result == UserService.WRONG_PASSWORD){
+//            msg = "비밀번호가 틀림";
+//            url = "login";
+//        } else  {
+//            msg = "아이디가 존재하지 않음";
+//            url = "register";
+//        }
+//        model.addAttribute("msg",msg);
+//        model.addAttribute("url", url);
+//        return "common/alertMsg";
+//    }
+    @GetMapping("/loginSuccess")
+    public String loginSuccess(HttpSession session, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String uid = authentication.getName();
+
+        User user = userService.findByUid(uid);
+        session.setAttribute("sessUid", uid);
+        session.setAttribute("sessUname", user.getUname());
+        String msg = user.getUname() + "님 환영합니다." ;
+        String url = "/mall/list";
         model.addAttribute("msg",msg);
         model.addAttribute("url", url);
+
         return "common/alertMsg";
     }
     @GetMapping

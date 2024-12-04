@@ -1,5 +1,7 @@
 package com.lion.demo.controller;
 
+import com.lion.demo.aspect.CheckPermission;
+import com.lion.demo.aspect.LogExecutionTime;
 import com.lion.demo.entity.BookStat;
 import com.lion.demo.entity.Cart;
 import com.lion.demo.entity.Order;
@@ -54,6 +56,7 @@ public class OrderController {
     }
 
     @GetMapping("/listAll")
+    @CheckPermission("ROLE_ADMIN")
     public String listAll(Model model) {
         // 2024년 12월
         LocalDateTime startTime = LocalDateTime.of(2024, 12, 1, 0, 0);
@@ -107,14 +110,11 @@ public class OrderController {
         model.addAttribute("totalBooks", totalBooks);
         model.addAttribute("mostSoldBookName", mostSoldBook);
         model.addAttribute("MostRevBookName", mostRevBook);
-        System.out.println(mostRevBook);
-        System.out.println(mostSoldMap);
-        System.out.println(mostRevBook);
-        System.out.println("===================================");
         return "order/listAll";
     }
 
     @GetMapping("/bookStat")
+    @LogExecutionTime
     public String bookStat(Model model) {
         // 2024년 12월
         LocalDateTime startTime = LocalDateTime.of(2024, 12, 1, 0, 0);
