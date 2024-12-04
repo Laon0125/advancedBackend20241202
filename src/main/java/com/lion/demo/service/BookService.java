@@ -9,6 +9,8 @@ public interface BookService {
 
     Book findByBid(long bid);
 
+    List<Book> getBookList(int page, String field, String query);
+
     List<Book> getBooksByPage(int page);
 
     void insertBook(Book book);
