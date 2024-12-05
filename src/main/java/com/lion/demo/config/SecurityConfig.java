@@ -1,6 +1,7 @@
 package com.lion.demo.config;
 
 import com.lion.demo.security.JwtRequestFilter;
+import com.lion.demo.security.MyOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 @Configuration
 public class SecurityConfig {
     @Autowired private AuthenticationFailureHandler failureHandler;
+    @Autowired private MyOAuth2UserService myOAuth2UserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,6 +43,15 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/user/login")
                 )
+                .oauth2Login(auth -> auth
+                        .loginPage("/user/login")
+                        // 1. 코드받기(인증), 2. 액세스 토큰(권한), 3. 사용자 정보 획득
+                        // 4. 3에서 받은 정보를 토대로 DB에 없으면 가입을 시켜줌
+                        // 5. 프로바이더가 제공하는 정보
+                        .userInfoEndpoint(user -> user.userService(myOAuth2UserService))
+                        .defaultSuccessUrl("/user/loginSuccess", true)
+                )
+
         ;
 
         return http.build();

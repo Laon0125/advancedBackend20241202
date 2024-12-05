@@ -45,8 +45,10 @@ dependencies {
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
-	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-client
-	implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '6.4.0'
+//	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-client
+//	implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '6.4.0'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 
 
