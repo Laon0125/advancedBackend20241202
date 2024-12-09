@@ -49,8 +49,12 @@ dependencies {
 //	implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '6.4.0'
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation("io.micrometer:micrometer-core")
+	implementation("io.micrometer:micrometer-registry-prometheus")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-
+	// webSocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 }
 

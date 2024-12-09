@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>WebSocket Echo v2</title>
+        <script>
+            let socket;
+            function connect() {
+                socket = new WebSocket('ws://localhost:8090/echo');
+
+                socket.onopen = () => {
+                    console.log('Connected.');
+                    document.getElementById('status').innerText = 'Connected.' ;
+                }
+                socket.onmessage = (event) => {
+                    console.log('Message from server: ' + event.data);
+                    const messages = document.getElementById('message')
+                    messages.value += event.data + '\n';
+                }
+                socket.onclose = () => {
+                    console.log('Disconnected')
+                    document.getElementById('status').innerText = 'Disconnected.' ;
+                }
+            }
+            function sendMessage() {
+                const message = document.getElementById('messageInput').value;
+                if (socket && socket.readyState === socket.OPEN) {
+                    socket.send (message);
+                    document.getElementById('messageInput').value = "*";
+                } else {
+                alert ('WebSocket is not connected.');
+                }
+            }
+            function disconnect() {
+                if (socket && socket.readyState === socket.OPEN) {
+                    socket.close();
+                    console.log("disconnected by client")
+                } else {
+                    alert ('WebSocket is not connected.');
+                }
+
+            }
+        </script>
+    </head>
+    <body style="margin: 40px;">
+        <h1>WebSocket Echo v2</h1>
+        <p>
+            Status: <span id = "status"> connecting... </span>
+            <button onclick="connect()"> 전송 </button>
+        </p>
+        <textarea id = "message" rows = "10" cols = "60" readonly></textarea>
+        <input type = "text" id = "messageInput" placeholder="Enter Your Msg">
+        <button onclick="sendMessage()"> 전송 </button>
+        <button onclick="disconnect()"> 연결 해제 </button>
+    </body>
+</html>
