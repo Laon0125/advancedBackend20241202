@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <header th:replace="~{fragments/base :: head}"></header>
     <style>
-        th, td { padding: 3px; }
+        th { text-align: center; }
+        td { vertical-align: middle; }
     </style>
 </head>
-<body style="margin: 50px;">
-<h1>사용자 목록
-    <span style="font-size: 16px; margin-left: 100px;">
-      <span th:if="${session.sessUid}">
-        [[${session.sessUname}]]님 환영합니다.&nbsp;&nbsp;&nbsp;
-        <a href="/user/logout">로그아웃</a>
-      </span>
-      <span th:unless="${session.sessUid}">
-        <a href="/user/login">로그인</a>&nbsp;&nbsp;&nbsp;
-        <a href="/user/register">사용자 등록</a>
-      </span>
-    </span>
-</h1>R
+    <script>
+        function handleEnter(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();     // 줄바꿈 방지
+                search();
+            }
+        }
+        function search() {
+            const field = document.getElementById('field').value;
+            const query = document.getElementById('query').value;
+            const uri = '/book/list?p=1' + '&f=' + field + '&q=' + query;
+            location.href = encodeURI(uri);   // 한글 입력시 인코딩해서 전달
+        }
+    </script>
+</h1>
 <hr>
 <table border="1">
     <tr>

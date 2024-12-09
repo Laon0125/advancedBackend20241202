@@ -1,9 +1,8 @@
-package com.lion.demo.Repository;
+package com.lion.demo.repository;
 
 import com.lion.demo.entity.Book;
 import com.lion.demo.entity.Cart;
 import com.lion.demo.entity.User;
-import com.lion.demo.repository.CartRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
