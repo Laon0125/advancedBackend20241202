@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -20,6 +22,7 @@ public class ChattingController {
     @Autowired private ChatMessageService chatMessageService;
     @Autowired private RecipientService recipientService;
     @Autowired private UserService userService;
+    @Autowired private ChattingWebSocketHandler chattingWebSocketHandler;
     @Autowired private TimeUtil timeUtil;
     @Value("${server.port}") private String serverPort;
 
@@ -76,6 +79,21 @@ public class ChattingController {
         model.addAttribute("friend", friend);
         return "chatting/chat";
     }
+    @PostMapping("/insert")
+    @ResponseBody
+    public String insert(String senderUid, String recipientUid, String message) {
+        User sender = userService.findByUid(senderUid);
+        User recipient = userService.findByUid(recipientUid);
+        ChatMessage chatMessage = ChatMessage.builder()
+                .sender(sender).recipient(recipient).message(message)
+                .timestamp(LocalDateTime.now()).hasRead(0)
+                .hasRead(chattingWebSocketHandler.isReadable(senderUid,recipientUid))
+                .build();
+        chatMessageService.insertChatMessage(chatMessage);
+        System.out.println(chatMessage.getHasRead());
+        return "ok";
+    }
+
 
     @GetMapping("/mock")
     public String mockForm() {
@@ -90,7 +108,6 @@ public class ChattingController {
                 .sender(sender).recipient(recipient).message(message).timestamp(timestamp).hasRead(0)
                 .build();
         chatMessageService.insertChatMessage(chatMessage);
-//        recipientService.insertFriend(sender, recipient);
         return "redirect:/chatting/mock";
     }
 
@@ -102,7 +119,7 @@ public class ChattingController {
         User user = userService.findByUid(userId);
         User friend = userService.findByUid(recipientId);
         Map<String, List<ChatMessage>> map = chatMessageService.getChatMessagesByDate(userId, recipientId);
-        Map<String , List<ChatItem>> chatItemByDate = new LinkedHashMap<>();
+        Map<String , List<ChatItem>> chatItemsByDate = new LinkedHashMap<>();
         for(Map.Entry<String, List<ChatMessage>> entry: map.entrySet()) {
             String key = entry.getKey();
             List<ChatItem> list = new ArrayList<>();
@@ -112,9 +129,16 @@ public class ChattingController {
                         .message(cm.getMessage())
                         .timeStr(timeUtil.amPmStr(cm.getTimestamp()))
                         .hasRead(cm.getHasRead())
+                        .friendUname(friend.getUname())
+                        .friendProfileUrl(friend.getProfileUrl())
                         .build();
+                list.add(chatItem);
             }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (E)", Locale.KOREAN);
+            String date = LocalDate.parse(key).format(formatter);
+            chatItemsByDate.put(date, list);
         }
+        return ResponseEntity.ok(chatItemsByDate);
     }
 
 }

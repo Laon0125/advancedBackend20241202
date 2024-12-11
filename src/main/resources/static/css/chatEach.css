@@ -35,7 +35,7 @@
     padding: 8px;
     border-radius: 8px;
     display: inline-block;
-    max-width: 80%;
+    max-width: 78%;
     word-wrap: break-word;
     font-size: 0.8rem;
 }
@@ -50,4 +50,11 @@
 }
 .text-muted {
     font-size: 0.9rem;
+}
+.read-status {
+    background-color: #f39c12;
+    color: white;
+    border-radius: 50%;
+    padding: 1px 5px;
+    line-height: 1;
 }
