@@ -1,6 +1,10 @@
-package com.lion.demo.webSocket;
+package com.lion.demo.config;
 
+import com.lion.demo.chatting.ChattingHandshakeInterceptor;
+import com.lion.demo.chatting.ChattingWebSocketHandler;
 import com.lion.demo.webSocket.EchoWebSocketHandler;
+import com.lion.demo.webSocket.PersonalWebSocketHandler;
+import com.lion.demo.webSocket.UserHandshakeInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -12,6 +16,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class WebSocketConfig implements WebSocketConfigurer {
     @Autowired private EchoWebSocketHandler echoWebSocketHandler;
     @Autowired private PersonalWebSocketHandler personalWebSocketHandler;
+    @Autowired private ChattingWebSocketHandler chattingWebSocketHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -20,6 +25,10 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
         registry.addHandler(personalWebSocketHandler, "/personal")
                 .addInterceptors(new UserHandshakeInterceptor())        // 1 : 1 messaging
+                .setAllowedOrigins("*");
+
+        registry.addHandler(chattingWebSocketHandler, "/chat")
+                .addInterceptors(new ChattingHandshakeInterceptor())        // chatting
                 .setAllowedOrigins("*");
     }
 }
