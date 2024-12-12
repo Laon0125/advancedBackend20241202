@@ -50,6 +50,7 @@ public class ChatMessageServiceImpl implements ChatMessageService{
         List<ChatMessage> mergedList = Stream.concat(list1.stream(), list2.stream())
                 .sorted(Comparator.comparing(ChatMessage::getTimestamp))
                 .collect(Collectors.toList());
+
         Map<String, List<ChatMessage>> map = new LinkedHashMap<>();
         for (ChatMessage cm: mergedList) {
             String date = cm.getTimestamp().toString().substring(0, 10);

@@ -111,7 +111,7 @@ public class ChattingController {
         return "redirect:/chatting/mock";
     }
 
-    @GetMapping("getChatItems")
+    @GetMapping("/getChatItems")
     @ResponseBody
     public ResponseEntity<Map<String, List<ChatItem>>> getChatItems(
             @RequestParam("userId") String userId, @RequestParam("recipientId") String recipientId

@@ -39,14 +39,14 @@ async function fetchChatterList() {
 function updateChatterList(chatterList) {
     const tableBody = document.querySelector('.table > tbody');
     tableBody.innerHTML = ''; // 기존 내용을 초기화
+    console.log("----------------updateChatterList")
 
     chatterList.forEach(chatter => {
         const row = document.createElement('tr');
 
         row.innerHTML = `
             <td style="text-align: center;">
-                <img src="${chatter.friendProfileUrl}" alt="${chatter.friendUname}" width="40" style="border-radius: 50%">
-            </td>
+                 <img src="${chatter.friendProfileUrl}" alt="${chatter.friendUname}" width="40" style="border-radius: 50%; text-align: center;"> </td>
             <td>
                 <a href="/chatting/chat/${chatter.friendUid}">
                     <span style="font-weight: bold; font-size: 0.8rem">${chatter.friendUname}</span>
