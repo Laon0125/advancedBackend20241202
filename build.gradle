@@ -52,9 +52,11 @@ dependencies {
 	implementation("io.micrometer:micrometer-core")
 	implementation("io.micrometer:micrometer-registry-prometheus")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
-
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 	// webSocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.2'
 
 }
 

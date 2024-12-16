@@ -58,12 +58,7 @@
                 <a class="nav-link" th:classappend="${session.menu eq 'chatting' ? 'active' : ''}" href="/chatting/home"><i class="fa-solid fa-comments"></i> 채팅</a>
               </li>
               <li class="nav-item ms-3">
-                <a
-                  class="nav-link"
-                  th:classappend="${session.menu eq 'elastic' ? 'active' : ''}"
-                  href="#"
-                  ><i class="fa-solid fa-sheet-plastic"></i> Elastic</a
-                >
+                <a class="nav-link" th:classappend="${session.menu eq 'bookEs' ? 'active' : ''}" href="/bookEs/list"><i class="fa-solid fa-sheet-plastic"></i> Elastic</a>
               </li>
               <li class="nav-item ms-3">
                 <a

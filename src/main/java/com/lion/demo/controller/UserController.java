@@ -126,7 +126,7 @@ public class UserController {
         session.setAttribute("sessUname", user.getUname());
         String msg = user.getUname() + "님 환영합니다." ;
         //String url = "/book/list";
-        String url = "/chatting/home";
+        String url = "/bookEs/list";
         model.addAttribute("msg",msg);
         model.addAttribute("url", url);
 
