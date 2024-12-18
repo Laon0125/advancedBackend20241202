@@ -22,13 +22,13 @@ public class SecurityConfig {
                 .headers(x -> x.frameOptions(y -> y.disable()))     // H2-console
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/book/list", "/book/detail/**", "/bookEs/list", "/bookEs/detail/**","/bookEs/listOld",
-                                "/misc/**", "/webSocket", "/echo", "/personal", "/restaurant/**",
+                                "/misc/**", "/webSocket", "/echo", "/personal", "/restaurant/list", "/restaurant/detail/**",
                                 "/mall/list", "/mall/detail/**", "/user/register", "/h2-console", "/demo/**",
                                 "/img/**", "/js/**", "/css/**", "/error/**"
                         ).permitAll()
                         .requestMatchers(
                                 //"/book/insert", "/book/yes24",
-                                "/order/listAll", "/order/bookStat", "/bookEs/yes24",
+                                "/order/listAll", "/order/bookStat", "/bookEs/yes24", "/restaurant/init",
                                 "/user/delete", "/user/list").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )

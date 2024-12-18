@@ -1,0 +1,99 @@
+[AWS에서 설치할 경우]
+sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-nori
+
+[윈도우에 설치할 경우]
+관리자 모드로 CMD 실행 후
+C:\Tools\Elasticsearch\bin\elasticsearch-plugin install analysis-nori
+
+[Elasticsearch 재시작]
+- 설치 확인
+elasticsearch-plugin list
+
+[기존 restaurant 삭제]
+curl -X DELETE localhost:9200/restaurant
+
+[Nori Analyzer가 적용된 인덱스 생성]
+curl -X PUT "http://localhost:9200/restaurants" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "korean_analyzer": {
+          "type": "custom",
+          "tokenizer": "nori_tokenizer",
+          "filter": ["lowercase", "nori_part_of_speech"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "name": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "intro": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "info": {
+        "type": "object",
+        "dynamic": true
+      }
+      "reviews": {
+        "type": "nested",
+        "properties": {
+            "review": {
+                "type": "text",
+                "analyzer": "korean_analyzer"
+            },
+          "score": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }'
+
+[Nori Analyzer가 적용된 인덱스 생성] - book
+curl -X PUT "http://localhost:9200/books" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "korean_analyzer": {
+          "type": "custom",
+          "tokenizer": "nori_tokenizer",
+          "filter": ["lowercase", "nori_part_of_speech"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "author": {
+        "type": "text",
+                "analyzer": "korean_analyzer"
+      },
+      "company": {
+        "type": "text",
+                "analyzer": "korean_analyzer"
+      },
+             "summary": {
+               "type": "text",
+                       "analyzer": "korean_analyzer"
+             }
+
+
+
+
+        }
+      }
+    }
+  }'

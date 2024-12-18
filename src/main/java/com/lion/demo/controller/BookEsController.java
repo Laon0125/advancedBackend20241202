@@ -70,7 +70,7 @@ public class BookEsController {
     }
     @GetMapping("/detail/{bookId}")
     public String detail(@PathVariable String bookId,
-                         @RequestParam(name="q", defaultValue = "**") String query,
+                         @RequestParam(name="q", defaultValue = "") String query,
                          Model model) {
         BookEs bookEs = bookEsService.findById(bookId);
         if (!query.equals("")) {
@@ -85,10 +85,10 @@ public class BookEsController {
 
 
 
-    @GetMapping("/yes24")
-    @ResponseBody
-    public String yes24() {
-        csvFileReaderService.csvFileToElasticSearch();
-        return "<h1>일래스틱서치에 데이터를 저장했습니다.</h1>";
-    }
+//    @GetMapping("/yes24")
+//    @ResponseBody
+//    public String yes24() {
+//        csvFileReaderService.csvFileToElasticSearch();
+//        return "<h1>일래스틱서치에 데이터를 저장했습니다.</h1>";
+//    }
 }
